@@ -3,12 +3,9 @@
 #include "stdafx.h"
 #include "ThreeClearHelper.h"
 
-// 初始化随机种子
-int TreeClearHelper::seed = time(0);
-
 TreeClearHelper::TreeClearHelper()
 {
-
+	std::srand(time(0));
 }
 
 TreeClearHelper* TreeClearHelper::Instance()
@@ -33,12 +30,10 @@ int TreeClearHelper::produceRadomNumber(int modular, std::vector<int> excepts)
 	// 判断：excepts 是否占用了所有的 modular 的值
 	if (modular <= excepts.size()) return -1;
 	// 产生一个值
-	std::srand(seed++);
 	int random = std::rand() % modular;
 	// 判断该值是否被剔除不考虑，如果是的话，则再生成一个随机数，直到生成的随机数
 	// 值不在被剔除值的范围中之后，才确定返回其值
 	while (std::find(excepts.cbegin(), excepts.cend(), random) != excepts.cend()) {
-		std::srand(seed++);
 		random = std::rand() % modular;
 	}
 	return random;

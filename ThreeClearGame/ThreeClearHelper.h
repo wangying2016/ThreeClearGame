@@ -46,8 +46,4 @@ public:
 	// modular  随机数发生器范围，0开始
 	// excepts  在随机数发生器范围内的不计入随机运算的数字
 	int produceRadomNumber(int modular, std::vector<int> excepts = std::vector<int>());
-
-private:
-	// 随机种子
-	static int seed;
 };
