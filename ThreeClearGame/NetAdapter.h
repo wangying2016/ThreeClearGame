@@ -11,11 +11,12 @@
  *  说　　明: 
  ******************************************************************/  
 #pragma once
+#include "ThreeClearHelper.h"
 
 class CNetAdapter : public SAdapterBase
 {
 public:
-	CNetAdapter();
+	CNetAdapter(std::vector<std::vector<Grid>> vecNet);
 	virtual ~CNetAdapter();
 	
 	// 元素个数
@@ -27,4 +28,11 @@ public:
 
 	// 按钮点击
 	bool OnButtonClick(EventArgs* pEvt);
+
+protected:
+	// 将 tileview 的 position 转化为 Grid 坐标
+	std::pair<int, int> covertPostion2Grid(int position);
+
+private:
+	std::vector<std::vector<Grid>> m_vecNet;
 };

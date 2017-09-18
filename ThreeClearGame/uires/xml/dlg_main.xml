@@ -19,7 +19,7 @@
     <window pos="0,[,-0,-0" colorBkgnd="#666666">
       <tileview pos="|,|,@528,@462" offset="-0.5,-0.5" name="tv_net" wantTab="1" marginSize="0" colorBkgnd="#eeeeee">
         <template itemHeight="66" itemWidth="66" colorHover="#eeeeee" colorSelected="#eeeeee" trackMouseEvent="1">
-          <button pos="0,0,-0,-0" name="btn_grid" skin="skin_btn_shield" focusable="0"></button>
+          <button pos="0,0,-0,-0" name="btn_grid" focusable="0"></button>
         </template>
       </tileview>
     </window>
