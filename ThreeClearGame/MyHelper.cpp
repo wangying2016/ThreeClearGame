@@ -6,6 +6,7 @@
 MyHelper::MyHelper()
 {
 	std::srand(time(0));
+	m_pWindow = nullptr;
 }
 
 MyHelper* MyHelper::Instance()
@@ -20,6 +21,12 @@ MyHelper* MyHelper::Instance()
 MyHelper::~MyHelper()
 {
 
+}
+
+// 初始化窗口信息
+void MyHelper::InitWindow(SOUI::SWindow* pWindow)
+{
+	m_pWindow = pWindow;
 }
 
 // 获取随机数
@@ -37,4 +44,20 @@ int MyHelper::Random(int modular, std::vector<int> excepts)
 		random = std::rand() % modular;
 	}
 	return random;
+}
+
+// 写入日志
+void MyHelper::WriteLog(SOUI::SStringW strMsg)
+{
+	if (m_pWindow != NULL) {
+		SOUI::SRichEdit* pEdit = 
+			m_pWindow->FindChildByName2<SOUI::SRichEdit>(L"edit_log");
+		assert(pEdit);
+		SOUI::SStringW strOriginalMsg = pEdit->GetWindowTextW();
+		strOriginalMsg.Trim();
+		SOUI::SStringW strNowMsg;
+		strNowMsg.Format(L"%s\n%s", strOriginalMsg, strMsg);
+		pEdit->SetWindowTextW(strNowMsg);
+		pEdit->SetScrollPos(TRUE, -1, TRUE);
+	}
 }

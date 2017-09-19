@@ -49,9 +49,18 @@ public:
 	static MyHelper* Instance();
 	virtual ~MyHelper();
 
+	// 初始化窗口信息
+	void InitWindow(SOUI::SWindow* pWindow);
+
 public:
 	// 获取随机数
 	// modular  随机数发生器范围，0开始
 	// excepts  在随机数发生器范围内的不计入随机运算的数字
 	int Random(int modular, std::vector<int> excepts = std::vector<int>());
+
+	// 写入日志
+	void WriteLog(SOUI::SStringW strMsg);
+
+private:
+	SOUI::SWindow* m_pWindow;
 };

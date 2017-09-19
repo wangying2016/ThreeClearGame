@@ -20,7 +20,6 @@ public:
 	virtual ~NetMatrix();
 
 public:
-
 	// 获取内部数据结构
 	std::vector<std::vector<Grid>> getNet();
 
@@ -34,10 +33,10 @@ public:
 
 protected:
 	// 随机产生一个阵列
-	void RandomNet();
+	void RandomNet(std::vector<std::vector<Grid>>& vecNet);
 
 	// 是否合法阵列
-	bool ValidNet();
+	bool ValidNet(std::vector<std::vector<Grid>> vecNet);
 
 private:
 	// 存储矩阵

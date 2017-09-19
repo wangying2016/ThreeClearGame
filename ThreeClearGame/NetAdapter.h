@@ -12,6 +12,7 @@
  ******************************************************************/  
 #pragma once
 #include "MyHelper.h"
+#include "NetMatrix.h"
 
 class CNetAdapter : public SAdapterBase
 {
@@ -31,7 +32,7 @@ public:
 
 protected:
 	// 将 tileview 的 position 转化为 Grid 坐标
-	std::pair<int, int> covertPostion2Grid(int position);
+	PosPoint covertPostion2Grid(int position);
 
 private:
 	std::vector<std::vector<Grid>> m_vecNet;

@@ -12,8 +12,10 @@
     </caption>
     <!--控制按钮-->
     <window pos="0,[,-0,@60" colorBkgnd="#666666">
-      <button pos="100,|,@90,@30" offset="0,-0.5" focusable="0" alpha="150">重新开始</button>
-      <text pos="[200,{7" name="text_score" font="adding:2" colorText="#ffffff" >分数：</text>
+      <button pos="20,2,@90,@30" focusable="0" alpha="150">重新开始</button>
+      <text pos="{20,[5" name="text_score" font="adding:2" colorText="#ffffff" >分数：</text>
+      <richedit pos="200,10,@300,@50" name="edit_log" colorBkgnd="#999999" multiLines="1" 
+           readOnly="1" inset="5"/>
     </window>
     <!--网格-->
     <window pos="0,[,-0,-0" colorBkgnd="#666666">
