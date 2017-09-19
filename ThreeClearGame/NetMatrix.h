@@ -11,7 +11,7 @@
  *  说　　明: 
  ******************************************************************/  
 #pragma once
-#include "ThreeClearHelper.h"
+#include "MyHelper.h"
 
 class NetMatrix
 {
@@ -31,6 +31,13 @@ public:
 
 	// 尝试消除
 	bool Change(Grid first, Grid second);
+
+protected:
+	// 随机产生一个阵列
+	void RandomNet();
+
+	// 是否合法阵列
+	bool ValidNet();
 
 private:
 	// 存储矩阵

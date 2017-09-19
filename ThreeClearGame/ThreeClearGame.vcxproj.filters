@@ -35,10 +35,10 @@
     <ClCompile Include="NetAdapter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ThreeClearHelper.cpp">
+    <ClCompile Include="NetMatrix.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NetMatrix.cpp">
+    <ClCompile Include="MyHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -63,7 +63,7 @@
     <ClInclude Include="NetMatrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ThreeClearHelper.h">
+    <ClInclude Include="MyHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

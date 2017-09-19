@@ -21,29 +21,37 @@ enum GridStatus {
 	Grid_SHIELD = 4
 };
 
-// 一个格子
-struct Grid {
-	Grid() : row(0), col(0), status(Grid_None) {}
-	Grid(int row, int col, GridStatus status = Grid_None) : 
-		row(row), col(col), status(status) {}
+// 一个坐标点
+struct PosPoint
+{
+	PosPoint() : row(0), col(0) {}
+	PosPoint(int row, int col) : row(row), col(col) {}
 	int row;
 	int col;
+};
+
+// 一个格子
+struct Grid {
+	Grid() : point(0, 0), status(Grid_None) {}
+	Grid(int row, int col, GridStatus status = Grid_None) : 
+		point(row, col), status(status) {}
+	PosPoint point;
 	GridStatus status;
 };
 
 // 单例帮助类
-class TreeClearHelper
+class MyHelper
 {
 protected:
-	TreeClearHelper();
+	MyHelper();
 
 public:
-	static TreeClearHelper* Instance();
-	virtual ~TreeClearHelper();
+	static MyHelper* Instance();
+	virtual ~MyHelper();
 
 public:
 	// 获取随机数
 	// modular  随机数发生器范围，0开始
 	// excepts  在随机数发生器范围内的不计入随机运算的数字
-	int produceRadomNumber(int modular, std::vector<int> excepts = std::vector<int>());
+	int Random(int modular, std::vector<int> excepts = std::vector<int>());
 };

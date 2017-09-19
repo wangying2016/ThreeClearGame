@@ -1,23 +1,23 @@
 #include <cstdlib>
 #include <time.h>
 #include "stdafx.h"
-#include "ThreeClearHelper.h"
+#include "MyHelper.h"
 
-TreeClearHelper::TreeClearHelper()
+MyHelper::MyHelper()
 {
 	std::srand(time(0));
 }
 
-TreeClearHelper* TreeClearHelper::Instance()
+MyHelper* MyHelper::Instance()
 {
-	static std::shared_ptr<TreeClearHelper> spMgr;
+	static std::shared_ptr<MyHelper> spMgr;
 	if (!spMgr.get()) {
-		spMgr.reset(new TreeClearHelper());
+		spMgr.reset(new MyHelper());
 	}
 	return spMgr.get();
 }
 
-TreeClearHelper::~TreeClearHelper()
+MyHelper::~MyHelper()
 {
 
 }
@@ -25,7 +25,7 @@ TreeClearHelper::~TreeClearHelper()
 // 获取随机数
 // modular  随机数发生器范围，0开始
 // excepts  在随机数发生器范围内的不计入随机运算的数字
-int TreeClearHelper::produceRadomNumber(int modular, std::vector<int> excepts)
+int MyHelper::Random(int modular, std::vector<int> excepts)
 {
 	// 判断：excepts 是否占用了所有的 modular 的值
 	if (modular <= excepts.size()) return -1;

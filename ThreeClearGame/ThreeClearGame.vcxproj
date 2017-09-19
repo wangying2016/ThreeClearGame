@@ -181,7 +181,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="ThreeClearGame.cpp" />
-    <ClCompile Include="ThreeClearHelper.cpp" />
+    <ClCompile Include="MyHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ThreeClearGame.rc" />
@@ -192,7 +192,7 @@
     <ClInclude Include="NetMatrix.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="ThreeClearHelper.h" />
+    <ClInclude Include="MyHelper.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\soui_res.rc2" />

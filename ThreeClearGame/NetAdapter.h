@@ -11,7 +11,7 @@
  *  Ëµ¡¡¡¡Ã÷: 
  ******************************************************************/  
 #pragma once
-#include "ThreeClearHelper.h"
+#include "MyHelper.h"
 
 class CNetAdapter : public SAdapterBase
 {
