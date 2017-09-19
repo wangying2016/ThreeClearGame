@@ -16,7 +16,7 @@
 class NetEvent {
 public:
 	// 尝试消除
-	virtual bool Change(Grid first, Grid second) = 0;
+	virtual bool Change(PosPoint pre, PosPoint cur) = 0;
 };
 
 class NetMatrix : public NetEvent
@@ -35,7 +35,7 @@ public:
 	void Init();
 
 	// 尝试消除
-	bool Change(Grid first, Grid second) override;
+	bool Change(PosPoint pre, PosPoint cur) override;
 
 protected:
 	// 随机产生一个阵列

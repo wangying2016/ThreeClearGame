@@ -5,6 +5,7 @@ CNetAdapter::CNetAdapter(std::vector<std::vector<Grid>> vecNet)
 {
 	m_vecNet = vecNet;
 	m_event = nullptr;
+	m_nClickCount = 0;
 }
 
 CNetAdapter::~CNetAdapter()
@@ -61,11 +62,14 @@ void CNetAdapter::getView(int position, SWindow * pItem,
 	break;
 	}
 	pButton->RequestRelayout();
+	// 清空按钮选中
+	pButton->SetCheck(FALSE);
 }
 
 // 按钮点击
 bool CNetAdapter::OnButtonClick(EventArgs* pEvt)
 {
+	m_nClickCount++;
 	SWindow* pTemplate = sobj_cast<SWindow>(pEvt->sender);
 	assert(pTemplate);
 	SButton* pButton = pTemplate->FindChildByName2<SButton>(L"btn_grid");
@@ -79,8 +83,16 @@ bool CNetAdapter::OnButtonClick(EventArgs* pEvt)
 	SOUI::SStringW strPos;
 	strPos.Format(L"坐标（%d，%d）被点击", point.row, point.col);
 	MyHelper::Instance()->WriteLog(strPos);
-	// 调用消除函数
-	m_event->Change(Grid(), Grid());
+	if (m_nClickCount == 2) {
+		// 调用消除函数
+		m_event->Change(m_preGrid, point);
+		// 清空计数
+		m_nClickCount = 0;
+		// 刷新显示
+		notifyDataSetChanged();
+	} else {
+		m_preGrid = point;
+	}
 	return true;
 }
 

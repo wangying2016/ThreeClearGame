@@ -38,6 +38,12 @@ protected:
 	PosPoint covertPostion2Grid(int position);
 
 private:
+	// 网格
 	std::vector<std::vector<Grid>> m_vecNet;
+	// 事件
 	NetEvent* m_event;
+	// 选中计数
+	INT m_nClickCount;
+	// 上一个点
+	PosPoint m_preGrid;
 };

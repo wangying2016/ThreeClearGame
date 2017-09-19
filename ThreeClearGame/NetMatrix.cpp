@@ -33,9 +33,12 @@ void NetMatrix::Init()
 }
 
 // 尝试消除
-bool NetMatrix::Change(Grid first, Grid second)
+bool NetMatrix::Change(PosPoint pre, PosPoint cur)
 {
-	SMessageBox(NULL, L"调用消除", L"提示", MB_OK);
+	auto vecNet = m_vecNet;
+	std::swap(vecNet[pre.row][pre.col], vecNet[cur.row][cur.col]);
+	if (!ValidNet(vecNet)) SMessageBox(NULL, L"成功消除", L"提示", MB_OK);
+	else SMessageBox(NULL, L"消除失败", L"提示", MB_OK);
 	return true;
 }
 
