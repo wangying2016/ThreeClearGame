@@ -12,13 +12,18 @@
  ******************************************************************/  
 #pragma once
 
+
+//////////////////////////////////////////////////////////////////////////
+// 数据结构定义
+
 // 一个格子的一种状态
 enum GridStatus {
 	Grid_None = 0,
 	Grid_Star = 1,
 	Grid_Heart = 2,
 	Grid_Sword = 3,
-	Grid_SHIELD = 4
+	Grid_Shield = 4,
+	Grid_Delete = 5
 };
 
 // 一个坐标点
@@ -43,7 +48,26 @@ struct Grid {
 	GridStatus status;
 };
 
+//////////////////////////////////////////////////////////////////////////
+// 事件
+
+// 消除事件
+class ChangeEvent {
+public:
+	// 尝试消除
+	virtual bool Change(PosPoint pre, PosPoint cur) = 0;
+};
+
+// 刷新网格事件
+class RefreshEvent {
+public:
+	// 重新刷新网格
+	virtual void RefreshNet(std::vector<std::vector<Grid>> vecNet) = 0;
+};
+
+//////////////////////////////////////////////////////////////////////////
 // 单例帮助类
+
 class MyHelper
 {
 protected:

@@ -17,6 +17,7 @@
     <file name="png_btn_heart" path="image\btn_heart.png" />
     <file name="png_btn_sword" path="image\btn_sword.png" />
     <file name="png_btn_shield" path="image\btn_shield.png" />
+    <file name="png_btn_delete" path="image\btn_delete.png" />
   </IMG>
   
   <ICON>

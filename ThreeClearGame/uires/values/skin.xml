@@ -6,4 +6,5 @@
   <imglist name="skin_btn_heart"	src="img:png_btn_heart" states="4"/>
   <imglist name="skin_btn_sword"	src="img:png_btn_sword" states="4"/>
   <imglist name="skin_btn_shield"	src="img:png_btn_shield" states="4"/>
+  <imglist name="skin_btn_delete"	src="img:png_btn_delete" states="4"/>
 </skin>

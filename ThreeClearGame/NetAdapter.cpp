@@ -13,8 +13,14 @@ CNetAdapter::~CNetAdapter()
 
 }
 
+// 更新显示
+void CNetAdapter::UpdateNet(std::vector<std::vector<Grid>> vecNet)
+{
+	m_vecNet = vecNet;
+}
+
 // 设置网格事件
-void CNetAdapter::SetEvent(NetEvent* pEvent)
+void CNetAdapter::SetEvent(ChangeEvent* pEvent)
 {
 	if (pEvent != nullptr) m_event = pEvent;
 }
@@ -57,8 +63,12 @@ void CNetAdapter::getView(int position, SWindow * pItem,
 		pButton->SetAttribute(L"skin", SKIN_SWORD);
 	break;
 	// 盾
-	case Grid_SHIELD:
+	case Grid_Shield:
 		pButton->SetAttribute(L"skin", SKIN_SHIELD);
+	break;
+	// 删除
+	case Grid_Delete:
+		pButton->SetAttribute(L"skin", SKIN_DELETE);
 	break;
 	}
 	pButton->RequestRelayout();

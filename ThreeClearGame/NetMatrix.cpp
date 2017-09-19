@@ -12,6 +12,7 @@ NetMatrix::NetMatrix()
 		}
 		m_vecNet.push_back(row);
 	}
+	m_event = nullptr;
 }
 
 NetMatrix::~NetMatrix()
@@ -55,9 +56,24 @@ bool NetMatrix::Change(PosPoint pre, PosPoint cur)
 		strPointsMsg += strPoint.Format(L"(%d, %d) ", it->row, it->col);
 	strCancelMsg.Format(L"消除了以下点：%s", strPointsMsg);
 	MyHelper::Instance()->WriteLog(strCancelMsg);
+	// 设置删除的点为删除皮肤
+	for (int i = 0; i < prePoints.size(); ++i) {
+		vecNet[prePoints[i].row][prePoints[i].col].status = Grid_Delete;
+	}
+	for (int i = 0; i < curPoints.size(); ++i) {
+		vecNet[curPoints[i].row][curPoints[i].col].status = Grid_Delete;
+	}
+	m_vecNet = vecNet;
+	m_event->RefreshNet(m_vecNet);
 	// TODO: 处理消除后的阵列下移，补充随机点
 	// TODO: 如果补充后的阵列仍然有可以消除的点，则继续消除直到不能消除为止
 	return true;
+}
+
+// 设置刷新事件指针
+void NetMatrix::SetEvent(RefreshEvent* event)
+{
+	if (event != nullptr) m_event = event;
 }
 
 // 随机产生一个阵列
@@ -71,7 +87,7 @@ void NetMatrix::RandomNet(std::vector<std::vector<Grid>>& vecNet)
 			case 0: vecNet[i][j].status = Grid_Star; break;
 			case 1: vecNet[i][j].status = Grid_Heart; break;
 			case 2: vecNet[i][j].status = Grid_Sword; break;
-			case 3: vecNet[i][j].status = Grid_SHIELD; break;
+			case 3: vecNet[i][j].status = Grid_Shield; break;
 			}
 		}
 	}

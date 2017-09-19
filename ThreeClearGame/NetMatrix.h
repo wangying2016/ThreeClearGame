@@ -13,13 +13,7 @@
 #pragma once
 #include "MyHelper.h"
 
-class NetEvent {
-public:
-	// 尝试消除
-	virtual bool Change(PosPoint pre, PosPoint cur) = 0;
-};
-
-class NetMatrix : public NetEvent
+class NetMatrix : public ChangeEvent
 {
 public:
 	NetMatrix();
@@ -36,6 +30,9 @@ public:
 
 	// 尝试消除
 	bool Change(PosPoint pre, PosPoint cur) override;
+
+	// 设置刷新事件指针
+	void SetEvent(RefreshEvent* event);
 
 protected:
 	// 随机产生一个阵列
@@ -55,6 +52,6 @@ protected:
 private:
 	// 存储矩阵
 	std::vector<std::vector<Grid>> m_vecNet;
-	// 事件指针
-	NetEvent* m_event;
+	// 刷新事件
+	RefreshEvent* m_event;
 };

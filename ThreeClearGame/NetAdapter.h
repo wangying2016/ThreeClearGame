@@ -12,7 +12,6 @@
  ******************************************************************/  
 #pragma once
 #include "MyHelper.h"
-#include "NetMatrix.h"
 
 class CNetAdapter : public SAdapterBase
 {
@@ -20,8 +19,11 @@ public:
 	CNetAdapter(std::vector<std::vector<Grid>> vecNet);
 	virtual ~CNetAdapter();
 
+	// 更新显示
+	void UpdateNet(std::vector<std::vector<Grid>> vecNet);
+
 	// 设置网格事件
-	void SetEvent(NetEvent* pEvent);
+	void SetEvent(ChangeEvent* pEvent);
 	
 	// 元素个数
 	int getCount() override;
@@ -41,7 +43,7 @@ private:
 	// 网格
 	std::vector<std::vector<Grid>> m_vecNet;
 	// 事件
-	NetEvent* m_event;
+	ChangeEvent* m_event;
 	// 选中计数
 	INT m_nClickCount;
 	// 上一个点
