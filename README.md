@@ -6,4 +6,13 @@
 
 以下是本项目运行截图：
 
-![消除功能](http://img.blog.csdn.net/20170919220541272?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMjgxNDg1Ng==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+消除 Gif 图
+![gif](https://github.com/wangying2016/ThreeClearGame/raw/master/picture/demo.gif)
+
+Step1
+![step1](https://github.com/wangying2016/ThreeClearGame/raw/master/picture/step1.png)
+
+Step2
+![step1](https://github.com/wangying2016/ThreeClearGame/raw/master/picture/step2.png)
+
+有问题欢迎访问我的博客，有问题可以在 CSDN 博客私信我 ^_^
