@@ -35,6 +35,7 @@ void NetMatrix::Init()
 // 尝试消除
 bool NetMatrix::Change(Grid first, Grid second)
 {
+	SMessageBox(NULL, L"调用消除", L"提示", MB_OK);
 	return true;
 }
 

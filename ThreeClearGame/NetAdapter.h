@@ -19,6 +19,9 @@ class CNetAdapter : public SAdapterBase
 public:
 	CNetAdapter(std::vector<std::vector<Grid>> vecNet);
 	virtual ~CNetAdapter();
+
+	// 设置网格事件
+	void SetEvent(NetEvent* pEvent);
 	
 	// 元素个数
 	int getCount() override;
@@ -36,4 +39,5 @@ protected:
 
 private:
 	std::vector<std::vector<Grid>> m_vecNet;
+	NetEvent* m_event;
 };

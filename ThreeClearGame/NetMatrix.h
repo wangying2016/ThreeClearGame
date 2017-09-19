@@ -13,7 +13,13 @@
 #pragma once
 #include "MyHelper.h"
 
-class NetMatrix
+class NetEvent {
+public:
+	// 尝试消除
+	virtual bool Change(Grid first, Grid second) = 0;
+};
+
+class NetMatrix : public NetEvent
 {
 public:
 	NetMatrix();
@@ -29,7 +35,7 @@ public:
 	void Init();
 
 	// 尝试消除
-	bool Change(Grid first, Grid second);
+	bool Change(Grid first, Grid second) override;
 
 protected:
 	// 随机产生一个阵列
@@ -41,4 +47,6 @@ protected:
 private:
 	// 存储矩阵
 	std::vector<std::vector<Grid>> m_vecNet;
+	// 事件指针
+	NetEvent* m_event;
 };

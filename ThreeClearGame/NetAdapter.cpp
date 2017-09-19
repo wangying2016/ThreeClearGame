@@ -4,11 +4,18 @@
 CNetAdapter::CNetAdapter(std::vector<std::vector<Grid>> vecNet)
 {
 	m_vecNet = vecNet;
+	m_event = nullptr;
 }
 
 CNetAdapter::~CNetAdapter()
 {
 
+}
+
+// 设置网格事件
+void CNetAdapter::SetEvent(NetEvent* pEvent)
+{
+	if (pEvent != nullptr) m_event = pEvent;
 }
 
 // 元素个数
@@ -72,6 +79,8 @@ bool CNetAdapter::OnButtonClick(EventArgs* pEvt)
 	SOUI::SStringW strPos;
 	strPos.Format(L"坐标（%d，%d）被点击", point.row, point.col);
 	MyHelper::Instance()->WriteLog(strPos);
+	// 调用消除函数
+	m_event->Change(Grid(), Grid());
 	return true;
 }
 
