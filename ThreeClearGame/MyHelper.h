@@ -26,6 +26,10 @@ struct PosPoint
 {
 	PosPoint() : row(0), col(0) {}
 	PosPoint(int row, int col) : row(row), col(col) {}
+	PosPoint SetPos(int row, int col) { 
+		row = row, col = col; 
+		return PosPoint(row, col);
+	}
 	int row;
 	int col;
 };

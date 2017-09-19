@@ -35,10 +35,28 @@ void NetMatrix::Init()
 // 尝试消除
 bool NetMatrix::Change(PosPoint pre, PosPoint cur)
 {
+	// 交换这两个点
 	auto vecNet = m_vecNet;
 	std::swap(vecNet[pre.row][pre.col], vecNet[cur.row][cur.col]);
-	if (!ValidNet(vecNet)) SMessageBox(NULL, L"成功消除", L"提示", MB_OK);
-	else SMessageBox(NULL, L"消除失败", L"提示", MB_OK);
+	// 检查是否能够消去
+	if (!ValidNet(vecNet)) 
+		MyHelper::Instance()->WriteLog(L"消除成功!");
+	else {
+		MyHelper::Instance()->WriteLog(L"消除失败!");
+		return false;
+	}
+	// 消除成功，输出消除信息：两个点都需要进行查询
+	std::vector<PosPoint> prePoints = GetCancelPoints(pre, vecNet);
+	std::vector<PosPoint> curPoints = GetCancelPoints(cur, vecNet);
+	SOUI::SStringW strPoint, strPointsMsg, strCancelMsg;
+	for (auto it = prePoints.begin(); it != prePoints.end(); ++it)
+		strPointsMsg += strPoint.Format(L"(%d, %d) ", it->row, it->col);
+	for (auto it = curPoints.begin(); it != curPoints.end(); ++it)
+		strPointsMsg += strPoint.Format(L"(%d, %d) ", it->row, it->col);
+	strCancelMsg.Format(L"消除了以下点：%s", strPointsMsg);
+	MyHelper::Instance()->WriteLog(strCancelMsg);
+	// TODO: 处理消除后的阵列下移，补充随机点
+	// TODO: 如果补充后的阵列仍然有可以消除的点，则继续消除直到不能消除为止
 	return true;
 }
 
@@ -82,4 +100,56 @@ bool NetMatrix::ValidNet(std::vector<std::vector<Grid>> vecNet)
 	}
 	// 检查通过
 	return true;
+}
+
+// 计算消除点
+std::vector<PosPoint> NetMatrix::GetCancelPoints(PosPoint point, std::vector<std::vector<Grid>> vecNet)
+{
+	// 由此起点开始发散查询
+	std::vector<PosPoint> horizontalPoints, verticalPoints;
+	GridStatus status = vecNet[point.row][point.col].status;
+	// 向左
+	for (int left = point.col - 1; left >= 0; --left) {
+		if (vecNet[point.row][left].status == status)
+			horizontalPoints.push_back(PosPoint(point.row, left));
+		else break;
+	}
+	// 向右
+	for (int right = point.col + 1; right < NET_COL_NUMBER; ++right) {
+		if (vecNet[point.row][right].status == status)
+			horizontalPoints.push_back(PosPoint(point.row, right));
+		else break;
+	}
+	// 向上
+	for (int up = point.row - 1; up >= 0; --up) {
+		if (vecNet[up][point.col].status == status)
+			verticalPoints.push_back(PosPoint(up, point.col));
+		else break;
+	}
+	// 向下
+	for (int down = point.row + 1; down < NET_ROW_NUMBER; ++down) {
+		if (vecNet[down][point.col].status == status)
+			verticalPoints.push_back(PosPoint(down, point.col));
+		else break;
+	}
+	// 检查结果是否合理
+	// 1. 水平或竖直方向上的个数小于等于 2，则该方向数值舍弃（之所以是 2，是因为
+	// 基准点在最后加上）
+	if (horizontalPoints.size() < 2) horizontalPoints.clear();
+	if (verticalPoints.size() < 2) verticalPoints.clear();
+	// 2. 将两个集合的点合并
+	std::vector<PosPoint> results;
+	for (auto h = horizontalPoints.begin(); h < horizontalPoints.end(); ++h)
+			results.push_back(*h);
+	for (auto v = verticalPoints.begin(); v < verticalPoints.end(); ++v)
+			results.push_back(*v);
+	if (horizontalPoints.size() >= 2 || verticalPoints.size() >= 2)
+		results.push_back(point);
+	return results;
+}
+
+// 显示消除消息
+void NetMatrix::ShowCancelMsg()
+{
+
 }
