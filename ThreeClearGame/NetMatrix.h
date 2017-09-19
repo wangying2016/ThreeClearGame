@@ -46,9 +46,6 @@ protected:
 	// vecNet 网格状态
 	std::vector<PosPoint> GetCancelPoints(PosPoint point, std::vector<std::vector<Grid>> vecNet);
 
-	// 显示消除消息
-	void ShowCancelMsg();
-
 private:
 	// 存储矩阵
 	std::vector<std::vector<Grid>> m_vecNet;

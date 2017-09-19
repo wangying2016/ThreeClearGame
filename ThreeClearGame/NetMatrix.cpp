@@ -36,8 +36,15 @@ void NetMatrix::Init()
 // 尝试消除
 bool NetMatrix::Change(PosPoint pre, PosPoint cur)
 {
-	// 交换这两个点
+	// 临时缓存处理内容
 	auto vecNet = m_vecNet;
+	// 如果这两个点中有一个点是删除状态，直接返回不处理
+	if (vecNet[pre.row][pre.col].status == Grid_Delete ||
+		vecNet[cur.row][cur.col].status == Grid_Delete) {
+		MyHelper::Instance()->WriteLog(L"删除按钮不能消除");
+		return true;
+	}
+	// 交换这两个点
 	std::swap(vecNet[pre.row][pre.col], vecNet[cur.row][cur.col]);
 	// 检查是否能够消去
 	if (!ValidNet(vecNet)) 
@@ -162,10 +169,4 @@ std::vector<PosPoint> NetMatrix::GetCancelPoints(PosPoint point, std::vector<std
 	if (horizontalPoints.size() >= 2 || verticalPoints.size() >= 2)
 		results.push_back(point);
 	return results;
-}
-
-// 显示消除消息
-void NetMatrix::ShowCancelMsg()
-{
-
 }
