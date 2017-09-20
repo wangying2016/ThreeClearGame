@@ -21,7 +21,10 @@ public:
 
 public:
 	// 获取内部数据结构
-	std::vector<std::vector<Grid>> getNet();
+	std::vector<std::vector<Grid>> GetNet();
+
+	// 设置数据结构
+	void SetNet(std::vector<std::vector<Grid>> vecNet);
 
 	// 初始化随机阵列
 	// 1. 随机排列四种图像按钮
@@ -33,6 +36,9 @@ public:
 
 	// 设置刷新事件指针
 	void SetEvent(RefreshEvent* event);
+
+	// 获取分数
+	int GetScore();
 
 protected:
 	// 随机产生一个阵列
@@ -51,4 +57,6 @@ private:
 	std::vector<std::vector<Grid>> m_vecNet;
 	// 刷新事件
 	RefreshEvent* m_event;
+	// 当前分数
+	INT m_nScore;
 };

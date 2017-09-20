@@ -2,7 +2,7 @@
 #include "NetMatrix.h"
 #include "MyHelper.h"
 
-NetMatrix::NetMatrix()
+NetMatrix::NetMatrix() : m_nScore(0)
 {
 	for (int i = 0; i < NET_ROW_NUMBER; ++i) {
 		std::vector<Grid> row;
@@ -21,14 +21,21 @@ NetMatrix::~NetMatrix()
 }
 
 // 获取内部数据结构
-std::vector<std::vector<Grid>> NetMatrix::getNet()
+std::vector<std::vector<Grid>> NetMatrix::GetNet()
 {
 	return m_vecNet;
+}
+
+// 设置数据结构
+void NetMatrix::SetNet(std::vector<std::vector<Grid>> vecNet)
+{
+	m_vecNet = vecNet;
 }
 
 // 初始化随机阵列
 void NetMatrix::Init()
 {
+	m_nScore = 0;
 	RandomNet(m_vecNet);
 	while (!ValidNet(m_vecNet)) RandomNet(m_vecNet);
 }
@@ -63,6 +70,8 @@ bool NetMatrix::Change(PosPoint pre, PosPoint cur)
 		strPointsMsg += strPoint.Format(L"(%d, %d) ", it->row, it->col);
 	strCancelMsg.Format(L"消除了以下点：%s", strPointsMsg);
 	MyHelper::Instance()->WriteLog(strCancelMsg);
+	// 计算分数：每消除一个得 1 分
+	m_nScore += (prePoints.size() + curPoints.size());
 	// 设置删除的点为删除皮肤
 	for (int i = 0; i < prePoints.size(); ++i) {
 		vecNet[prePoints[i].row][prePoints[i].col].status = Grid_Delete;
@@ -81,6 +90,12 @@ bool NetMatrix::Change(PosPoint pre, PosPoint cur)
 void NetMatrix::SetEvent(RefreshEvent* event)
 {
 	if (event != nullptr) m_event = event;
+}
+
+// 获取分数
+int NetMatrix::GetScore()
+{
+	return m_nScore;
 }
 
 // 随机产生一个阵列
