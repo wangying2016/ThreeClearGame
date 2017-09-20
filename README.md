@@ -1,8 +1,8 @@
 # ThreeClearGame
 这是我尝试基于 SOUI 制作的一个三消游戏：）
 
-本项目具体介绍信息可以参看我的博客：
-[思考的救赎（一）：三消游戏实现探索](http://blog.csdn.net/u012814856/article/details/78035234)
+本项目具体介绍信息可以参看我的博客：  
+[思考的救赎（一）：三消游戏实现探索](http://blog.csdn.net/u012814856/article/details/78035234)   
 [思考的救赎（二）：三消游戏功能完善](http://blog.csdn.net/u012814856/article/details/78046211)
 
 以下是本项目运行截图：
