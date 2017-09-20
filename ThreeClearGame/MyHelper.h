@@ -35,6 +35,14 @@ struct PosPoint
 		row = row, col = col; 
 		return PosPoint(row, col);
 	}
+	// 要想使用 std::set::insert 正确比较必须重载 operator== 操作符
+	bool operator==(const PosPoint& r) const {
+		return row == r.row && col == r.col;
+	}
+	// 要想使用 std::set 必须重载 operator< 操作符
+	bool operator<(const PosPoint& r) const {
+		return (row + col) < (r.row + r.col);
+	}
 	int row;
 	int col;
 };

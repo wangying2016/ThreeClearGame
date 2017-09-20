@@ -31,8 +31,11 @@ public:
 	// 2. 不能有 3 个及其以上个数相连
 	void Init();
 
-	// 尝试消除
+	// 主动尝试消除
 	bool Change(PosPoint pre, PosPoint cur) override;
+
+	// 被动产生消除（重力降落）
+	bool AutoDelete();
 
 	// 设置刷新事件指针
 	void SetEvent(RefreshEvent* event);

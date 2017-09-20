@@ -13,7 +13,7 @@
     <!--控制按钮-->
     <window pos="0,[,-0,@60" colorBkgnd="#666666">
       <button pos="20,2,@90,@30" name="btn_restart" focusable="0" alpha="150">重新开始</button>
-      <text pos="{20,[5" name="text_score" font="adding:2" colorText="#ffffff" >分数：0 分</text>
+      <text pos="30,[5" name="text_score" font="adding:2" colorText="#ffffff" >分数：0 分</text>
       <richedit pos="200,10,@350,@50" name="edit_log" colorBkgnd="#999999" multiLines="1" 
            wordWrap="1" readOnly="1" inset="5"/>
     </window>

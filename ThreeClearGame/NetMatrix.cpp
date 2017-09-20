@@ -49,7 +49,7 @@ bool NetMatrix::Change(PosPoint pre, PosPoint cur)
 	if (vecNet[pre.row][pre.col].status == Grid_Delete ||
 		vecNet[cur.row][cur.col].status == Grid_Delete) {
 		MyHelper::Instance()->WriteLog(L"删除按钮不能消除");
-		return true;
+		return false;
 	}
 	// 交换这两个点
 	std::swap(vecNet[pre.row][pre.col], vecNet[cur.row][cur.col]);
@@ -80,9 +80,60 @@ bool NetMatrix::Change(PosPoint pre, PosPoint cur)
 		vecNet[curPoints[i].row][curPoints[i].col].status = Grid_Delete;
 	}
 	m_vecNet = vecNet;
+	// 刷新界面
 	m_event->RefreshNet(m_vecNet);
-	// TODO: 处理消除后的阵列下移，补充随机点
-	// TODO: 如果补充后的阵列仍然有可以消除的点，则继续消除直到不能消除为止
+	return true;
+}
+
+// 被动产生消除（重力降落）
+bool NetMatrix::AutoDelete()
+{
+	// 记录有连续情况的点
+	std::vector<PosPoint> points;
+	// 行检查是否有连续 3 个
+	for (int i = 0; i < NET_ROW_NUMBER; ++i) {
+		for (int j = 0; j < NET_COL_NUMBER - 2; ++j) {
+			if (m_vecNet[i][j].status == m_vecNet[i][j + 1].status	   &&
+				m_vecNet[i][j + 1].status == m_vecNet[i][j + 2].status &&
+				m_vecNet[i][j].status != Grid_Delete) {
+				points.push_back(PosPoint(i, j));
+				j += 3;
+			}
+		}
+	}
+	// 列检查是否有连续 3 个
+	for (int j = 0; j < NET_COL_NUMBER; ++j) {
+		for (int i = 0; i < NET_ROW_NUMBER - 2; ++i) {
+			if (m_vecNet[i][j].status == m_vecNet[i + 1][j].status	   &&
+				m_vecNet[i + 1][j].status == m_vecNet[i + 2][j].status &&
+				m_vecNet[i][j].status != Grid_Delete) {
+				points.push_back(PosPoint(i, j));
+				i += 3;
+			}
+		}
+	}
+	// 如果没有找到这样的点，则证明没有被动产生消除
+	if (points.size() == 0) return false;
+	// 根据点获取消除点
+	std::set<PosPoint> cancelPoints;
+	for (int i = 0; i < points.size(); ++i) {
+		std::vector<PosPoint> tempPoints = GetCancelPoints(points[i], m_vecNet);
+		cancelPoints.insert(tempPoints.begin(), tempPoints.end());
+	}
+	// 输出自动消除点的信息
+	SOUI::SStringW strAutoCancelPoints, strAutoCancelMsg;
+	for (auto it = cancelPoints.begin(); it != cancelPoints.end(); ++it) {
+		SOUI::SStringW strPoint;
+		strPoint.Format(L"(%d, %d)", it->row, it->col);
+		strAutoCancelPoints += strPoint;
+	}
+	strAutoCancelMsg.Format(L"执行自动消除：%s", strAutoCancelPoints);
+	MyHelper::Instance()->WriteLog(strAutoCancelMsg);
+	// 设置以上点为删除状态
+	for (auto it = cancelPoints.begin(); it != cancelPoints.end(); ++it) {
+		m_vecNet[it->row][it->col].status = Grid_Delete;
+	}
+	m_event->RefreshNet(m_vecNet);
 	return true;
 }
 
@@ -101,7 +152,7 @@ int NetMatrix::GetScore()
 // 重力降落
 bool NetMatrix::LandOneGrid()
 {
-	// 每列在一个过程中只发生一格交换沉降标记
+	// 在一次本函数调用中每列中只发生一格交换沉降标记
 	bool bIsThisColLand[NET_COL_NUMBER] = { false };
 	// 标记是否发生了重力降落
 	bool bNeedLand = false;
@@ -145,8 +196,9 @@ bool NetMatrix::ValidNet(std::vector<std::vector<Grid>> vecNet)
 	// 行检查是否有连续 3 个
 	for (int i = 0; i < NET_ROW_NUMBER; ++i) {
 		for (int j = 0; j < NET_COL_NUMBER - 2; ++j) {
-			if (vecNet[i][j].status == vecNet[i][j + 1].status &&
-				vecNet[i][j + 1].status == vecNet[i][j + 2].status) {
+			if (vecNet[i][j].status == vecNet[i][j + 1].status		&&
+				vecNet[i][j + 1].status == vecNet[i][j + 2].status  &&
+				vecNet[i][j].status != Grid_Delete) {
 				return false;
 			}
 		}
@@ -154,8 +206,9 @@ bool NetMatrix::ValidNet(std::vector<std::vector<Grid>> vecNet)
 	// 列检查是否有连续 3 个
 	for (int j = 0; j < NET_COL_NUMBER; ++j) {
 		for (int i = 0; i < NET_ROW_NUMBER - 2; ++i) {
-			if (vecNet[i][j].status == vecNet[i + 1][j].status &&
-				vecNet[i + 1][j].status == vecNet[i + 2][j].status) {
+			if (vecNet[i][j].status == vecNet[i + 1][j].status	   &&
+				vecNet[i + 1][j].status == vecNet[i + 2][j].status &&
+				vecNet[i][j].status != Grid_Delete) {
 				return false;
 			}
 		}
@@ -170,6 +223,8 @@ std::vector<PosPoint> NetMatrix::GetCancelPoints(PosPoint point, std::vector<std
 	// 由此起点开始发散查询
 	std::vector<PosPoint> horizontalPoints, verticalPoints;
 	GridStatus status = vecNet[point.row][point.col].status;
+	// 如果查询状态为删除状态，则直接返回（已经消除了的点不能再次消除）
+	if (status == Grid_Delete) return std::vector<PosPoint>();
 	// 向左
 	for (int left = point.col - 1; left >= 0; --left) {
 		if (vecNet[point.row][left].status == status)
