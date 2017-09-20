@@ -120,6 +120,8 @@ bool NetMatrix::AutoDelete()
 		std::vector<PosPoint> tempPoints = GetCancelPoints(points[i], m_vecNet);
 		cancelPoints.insert(tempPoints.begin(), tempPoints.end());
 	}
+	// 计算分数
+	m_nScore += cancelPoints.size();
 	// 输出自动消除点的信息
 	SOUI::SStringW strAutoCancelPoints, strAutoCancelMsg;
 	for (auto it = cancelPoints.begin(); it != cancelPoints.end(); ++it) {
@@ -178,14 +180,24 @@ bool NetMatrix::LandOneGrid()
 // 随机补充格子
 void NetMatrix::AddRandomGrid()
 {
-	// 此时，m_vecNet 已经成为了一个删除按钮全部在上面
-	// 图像按钮全部在下面的矩阵了，此时只需要随机将按钮
-	// 掉落即可
-	for (int i = 0; i < NET_ROW_NUMBER; ++i) {
-		for (int j = 0; j < NET_COL_NUMBER; ++j) {
-
+	// m_vecNet 已经成为了一个删除按钮全部在上面，
+	// 图像按钮全部在下面的矩阵了，此时需要做的是：
+	// 1. 在首行随机插入点
+	// 2. 执行一次沉降
+	// 遍历首行
+	for (int col = 0; col < NET_COL_NUMBER; ++col) {
+		if (m_vecNet[0][col].status == Grid_Delete) {
+			int random = MyHelper::Instance()->Random(4);
+			switch (random)
+			{
+			case 0: m_vecNet[0][col].status = Grid_Star; break;
+			case 1: m_vecNet[0][col].status = Grid_Heart; break;
+			case 2: m_vecNet[0][col].status = Grid_Sword; break;
+			case 3: m_vecNet[0][col].status = Grid_Shield; break;
+			}
 		}
 	}
+	m_event->RefreshNet(m_vecNet);
 }
 
 // 随机产生一个阵列
