@@ -152,25 +152,40 @@ int NetMatrix::GetScore()
 // 重力降落
 bool NetMatrix::LandOneGrid()
 {
-	// 在一次本函数调用中每列中只发生一格交换沉降标记
-	bool bIsThisColLand[NET_COL_NUMBER] = { false };
 	// 标记是否发生了重力降落
 	bool bNeedLand = false;
-	// 从网格底层开始往上层遍历，每次只交换一次删除按钮和图像按钮
-	// i >= 1 是因为顶层的删除按钮无需处理
-	for (int i = NET_ROW_NUMBER - 1; i >= 1; --i) {
-		for (int j = 0; j < NET_COL_NUMBER; ++j) {
-			if (m_vecNet[i][j].status == Grid_Delete &&
-				m_vecNet[i - 1][j].status != Grid_Delete) {
-				if (bIsThisColLand[j] != true) {
-					std::swap(m_vecNet[i][j], m_vecNet[i - 1][j]);
-					bIsThisColLand[j] = true;
-					bNeedLand = true;
-				}
+	// 遍历每列
+	for (int col = 0; col < NET_COL_NUMBER; ++col) {
+		// 从下开始遍历每行
+		for (int row = NET_ROW_NUMBER - 1; row >= 1; --row) {
+			// 让删除点冒泡上去
+			if (m_vecNet[row][col].status == Grid_Delete   &&
+				m_vecNet[row - 1][col].status != Grid_Delete) {
+				// 标记发生了重力沉降
+				bNeedLand = true;
+				// 依次挪动删除点上去
+				int count = row;
+				do {
+					std::swap(m_vecNet[count][col], m_vecNet[count - 1][col]);
+				} while (--count >= 1 && m_vecNet[count - 1][col].status != Grid_Delete);
+				break;
 			}
 		}
 	}
 	return bNeedLand;
+}
+
+// 随机补充格子
+void NetMatrix::AddRandomGrid()
+{
+	// 此时，m_vecNet 已经成为了一个删除按钮全部在上面
+	// 图像按钮全部在下面的矩阵了，此时只需要随机将按钮
+	// 掉落即可
+	for (int i = 0; i < NET_ROW_NUMBER; ++i) {
+		for (int j = 0; j < NET_COL_NUMBER; ++j) {
+
+		}
+	}
 }
 
 // 随机产生一个阵列

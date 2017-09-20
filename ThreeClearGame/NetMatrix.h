@@ -35,6 +35,7 @@ public:
 	bool Change(PosPoint pre, PosPoint cur) override;
 
 	// 被动产生消除（重力降落）
+	// 返回是否产生了自动消除
 	bool AutoDelete();
 
 	// 设置刷新事件指针
@@ -47,6 +48,9 @@ public:
 	// 如果需要重力降落，则进行一次重力降落并返回 true
 	// 如果不需要则返回 false
 	bool LandOneGrid();
+
+	// 随机补充格子
+	void AddRandomGrid();
 
 protected:
 	// 随机产生一个阵列
