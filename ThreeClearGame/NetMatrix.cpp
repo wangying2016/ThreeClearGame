@@ -98,6 +98,30 @@ int NetMatrix::GetScore()
 	return m_nScore;
 }
 
+// 重力降落
+bool NetMatrix::LandOneGrid()
+{
+	// 每列在一个过程中只发生一格交换沉降标记
+	bool bIsThisColLand[NET_COL_NUMBER] = { false };
+	// 标记是否发生了重力降落
+	bool bNeedLand = false;
+	// 从网格底层开始往上层遍历，每次只交换一次删除按钮和图像按钮
+	// i >= 1 是因为顶层的删除按钮无需处理
+	for (int i = NET_ROW_NUMBER - 1; i >= 1; --i) {
+		for (int j = 0; j < NET_COL_NUMBER; ++j) {
+			if (m_vecNet[i][j].status == Grid_Delete &&
+				m_vecNet[i - 1][j].status != Grid_Delete) {
+				if (bIsThisColLand[j] != true) {
+					std::swap(m_vecNet[i][j], m_vecNet[i - 1][j]);
+					bIsThisColLand[j] = true;
+					bNeedLand = true;
+				}
+			}
+		}
+	}
+	return bNeedLand;
+}
+
 // 随机产生一个阵列
 void NetMatrix::RandomNet(std::vector<std::vector<Grid>>& vecNet)
 {

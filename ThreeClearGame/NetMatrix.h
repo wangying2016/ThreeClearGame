@@ -40,6 +40,11 @@ public:
 	// 获取分数
 	int GetScore();
 
+	// 重力降落一个格子
+	// 如果需要重力降落，则进行一次重力降落并返回 true
+	// 如果不需要则返回 false
+	bool LandOneGrid();
+
 protected:
 	// 随机产生一个阵列
 	void RandomNet(std::vector<std::vector<Grid>>& vecNet);
